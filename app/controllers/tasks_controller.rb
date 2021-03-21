@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   #未ログイン時はログイン画面に飛ぶ
-  before_action :require_user_logged_in, only: [:index]
+  before_action :require_user_logged_in, only: [:index, :show, :edit]
+  before_action :correct_user, only: [:show,:edit]
   
   before_action :set_task, only: [:show, :edit, :update, :destroy]  
   def index
@@ -66,5 +67,6 @@ class TasksController < ApplicationController
       redirect_to root_url
     end
   end
+  
 
 end
