@@ -1,9 +1,4 @@
 class UsersController < ApplicationController
-  def index
-  end
-  
-  def show
-  end
   
   def new
     @user = User.new
@@ -20,10 +15,6 @@ class UsersController < ApplicationController
       flash[:danger] = 'ユーザーの登録に失敗しました'
       render :new
     end
-  end
-  
-  def show
-    @user = User.find(params[:id])
   end
   
   private

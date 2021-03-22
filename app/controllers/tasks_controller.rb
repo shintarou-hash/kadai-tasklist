@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   #未ログイン時はログイン画面に飛ぶ
-  before_action :require_user_logged_in, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_action :require_user_logged_in
   #ログインしていなければタスクの操作 (CRUD) ができない
   before_action :correct_user, only: [:show, :edit, :update, :destroy] 
   
