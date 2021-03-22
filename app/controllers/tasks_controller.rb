@@ -1,14 +1,12 @@
 class TasksController < ApplicationController
   #未ログイン時はログイン画面に飛ぶ
-  before_action :require_user_logged_in, only: [:index, :show, :edit]
-  before_action :correct_user, only: [:show,:edit]
+  before_action :require_user_logged_in, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  #ログインしていなければタスクの操作 (CRUD) ができない
+  before_action :correct_user, only: [:show, :edit, :update, :destroy] 
   
-  before_action :set_task, only: [:show, :edit, :update, :destroy]  
+
   def index
-    if logged_in?
-     @task = current_user.tasks.build # form_with 用
      @tasks = current_user.tasks.order(id: :desc).page(params[:page])
-    end
   end
   
   def show
@@ -20,7 +18,6 @@ class TasksController < ApplicationController
   
   def create
     @task = current_user.tasks.build(task_params)
-   #@task = Task.new(task_params)
     
     if @task.save
       flash[:success] = 'タスクが正常に追加されました'
@@ -55,14 +52,14 @@ class TasksController < ApplicationController
   private
   
   # Strong Parameter
-  def set_task
-    @task = Task.find(params[:id])
-  end
+  #def set_task
+   # @task = Task.find(params[:id])
+  #end
   def task_params
     params.require(:task).permit(:content, :status)
   end
   def correct_user
-    @task = current_user.tasks.find_by(id: params[:id])
+    @task = current_user.tasks.find(params[:id])
     unless @task
       redirect_to root_url
     end
